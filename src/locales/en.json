@@ -4,8 +4,10 @@
     "search": "Search",
     "settings": "Settings"
   },
-  "available": "available",
   "fields": {
     "search": "Search"
-  }
+  },
+  "available": "available",
+  "expiresIn": "expires in {0}",
+  "expiredAt": "is expired {0}"
 }

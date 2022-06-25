@@ -4,8 +4,10 @@
     "search": "Suchen",
     "settings": "Einstellungen"
   },
-  "available": "vorhanden",
   "fields": {
     "search": "Suchen"
-  }
+  },
+  "available": "vorhanden",
+  "expiresIn": "läuft ab in {0}",
+  "expiredAt": "ist vor {0} abgelaufen"
 }

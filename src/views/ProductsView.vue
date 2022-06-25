@@ -64,7 +64,11 @@ const products = computed(() =>
           expired: product.expired,
         }"
       >
-        {{ moment(product.nextExpiresAt).fromNow() }}
+        {{
+          $t(product.expired ? 'expiredAt' : 'expiresIn', [
+            moment(product.nextExpiresAt).fromNow(),
+          ])
+        }}
       </div>
     </div>
   </div>
