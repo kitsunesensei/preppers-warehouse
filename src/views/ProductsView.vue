@@ -30,7 +30,7 @@ const products = computed(() =>
 
 <template>
   <div>
-    <page-title>swag</page-title>
+    <page-title>{{ $t('navigation.browse') }}</page-title>
     <div class="search-form">
       <input
         type="search"
