@@ -4,5 +4,8 @@
     "search": "Suchen",
     "settings": "Einstellungen"
   },
-  "available": "vorhanden"
+  "available": "vorhanden",
+  "fields": {
+    "search": "Suchen"
+  }
 }

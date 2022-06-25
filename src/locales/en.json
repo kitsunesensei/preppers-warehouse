@@ -4,5 +4,8 @@
     "search": "Search",
     "settings": "Settings"
   },
-  "available": "available"
+  "available": "available",
+  "fields": {
+    "search": "Search"
+  }
 }

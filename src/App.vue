@@ -4,7 +4,7 @@ import PageNavigation from '@/components/PageNavigation.vue'
 
 <template>
   <div class="layout">
-    <div class="page">
+    <div class="container">
       <router-view />
     </div>
     <footer>
@@ -17,7 +17,7 @@ import PageNavigation from '@/components/PageNavigation.vue'
 .layout
   @apply flex flex-col min-h-screen
 
-  .page
+  .container
     @apply flex-grow
 
   .navigation
