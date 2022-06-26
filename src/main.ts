@@ -1,3 +1,4 @@
+import devtools from '@vue/devtools'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
@@ -8,6 +9,10 @@ import router from './router'
 import './assets/sass/global.sass'
 import * as enMessages from './locales/en.json'
 import * as deMessages from './locales/de.json'
+
+if (import.meta.env.DEV) {
+  devtools.connect()
+}
 
 const i18n = createI18n({
   locale: 'en',
