@@ -3,13 +3,13 @@ import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 
 export type ProductItem = {
-  id: typeof uuidv4
+  id: string
   quantity: number
   expiresAt?: Date
 }
 
 export type Product = {
-  id: typeof uuidv4
+  id: string
   name: string
   identifiers: string[]
   items: ProductItem[]
