@@ -1,21 +1,28 @@
 <script lang="ts" setup>
 import type { ProductSummary } from '@/stores/products'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import moment from 'moment'
 import { ArrowNarrowRightIcon } from 'vue-tabler-icons'
-import PageTitle from '@/components/PageTitle.vue'
+import { useFormStore } from '@/stores/formCache'
 import { useProductsStore } from '@/stores/products'
+import PageTitle from '@/components/PageTitle.vue'
+import SearchForm from '@/components/SearchForm.vue'
 
 const productsStore = useProductsStore()
 
-const search = ref('')
+const formStore = useFormStore()
+
+const exploreFilter = computed({
+  get: () => formStore.exploreFilter,
+  set: (value) => (formStore.exploreFilter = value),
+})
 
 const products = computed(() =>
   productsStore.summary
     .filter((product: ProductSummary) =>
       `${product.id} ${product.identifiers.concat(' ')} ${product.name}`
         .toLowerCase()
-        .includes(`${search.value}`.toLowerCase())
+        .includes(`${exploreFilter.value}`.toLowerCase())
     )
     .map((product: ProductSummary) =>
       Object.assign(product, {
@@ -31,13 +38,7 @@ const products = computed(() =>
 <template>
   <div>
     <page-title>{{ $t('navigation.browse') }}</page-title>
-    <div class="search-form">
-      <input
-        type="search"
-        :placeholder="$t('fields.search')"
-        v-model.trim="search"
-      />
-    </div>
+    <search-form v-model.trim="exploreFilter" />
     <div
       v-for="(product, index) in products"
       :key="index"
@@ -75,11 +76,6 @@ const products = computed(() =>
 </template>
 
 <style lang="sass" scoped>
-.search-form
-
-  input[type="search"]
-    @apply mt-4 mb-6 px-2 py-1 w-full bg-gray-300 rounded
-
 .product
   @apply mb-4 pb-4 border-b
 
