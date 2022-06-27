@@ -16,6 +16,7 @@ if (import.meta.env.DEV) {
 }
 
 const i18n = createI18n({
+  // TODO: make dynamic
   locale: 'en',
   fallbackLocale: 'en',
   messages: {
@@ -29,5 +30,41 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
+
+/**
+ * @source https://stackoverflow.com/a/63910611/2699732
+ * @copyright Daniel<https://stackoverflow.com/users/197546/daniel>
+ */
+app.directive('click-outside', {
+  mounted(el, binding) {
+    el.clickOutsideEvent = function (event: CustomEvent) {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value(event, el)
+      }
+    }
+    document.body.addEventListener('click', el.clickOutsideEvent)
+  },
+  unmounted(el) {
+    document.body.removeEventListener('click', el.clickOutsideEvent)
+  },
+})
+
+app.directive('editable-focus', {
+  mounted(el) {
+    const range = document.createRange()
+    const sel = window.getSelection()
+
+    if (range && sel) {
+      range.setStart(el, 0)
+      range.collapse(true)
+
+      sel.removeAllRanges()
+      sel.addRange(range)
+    }
+  },
+})
+
+// TODO: make dynamic
+dayjs.locale('en')
 
 app.mount('#app')
