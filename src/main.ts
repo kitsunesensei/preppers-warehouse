@@ -34,6 +34,7 @@ app.use(i18n)
 /**
  * @source https://stackoverflow.com/a/63910611/2699732
  * @copyright Daniel<https://stackoverflow.com/users/197546/daniel>
+ * @licence CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/
  */
 app.directive('click-outside', {
   mounted(el, binding) {
