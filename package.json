@@ -24,8 +24,8 @@
     "*.**": "prettier --check --ignore-unknown"
   },
   "dependencies": {
+    "dayjs": "^1.11.3",
     "lodash": "^4.17.21",
-    "moment": "^2.29.3",
     "normalize.css": "^8.0.1",
     "pinia": "^2.0.14",
     "uuid": "^8.3.2",
@@ -40,7 +40,6 @@
     "@rushstack/eslint-patch": "^1.1.0",
     "@types/jsdom": "^16.2.14",
     "@types/lodash": "^4.14.182",
-    "@types/moment": "^2.13.0",
     "@types/node": "^16.11.41",
     "@types/uuid": "^8.3.4",
     "@vitejs/plugin-vue": "^2.3.3",
