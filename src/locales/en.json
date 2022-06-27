@@ -7,7 +7,16 @@
   "fields": {
     "search": "Search"
   },
+  "units": {
+    "kilogram": "kg",
+    "lb": "lb",
+    "liter": "l",
+    "piece": "Pieces"
+  },
+  "product": {
+    "add": "Add Product"
+  },
   "available": "available",
-  "expiresIn": "expires in {0}",
-  "expiredAt": "is expired {0}"
+  "expiresIn": "expires {0}",
+  "expiredAt": "expired {0}"
 }

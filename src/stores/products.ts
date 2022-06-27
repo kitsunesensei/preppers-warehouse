@@ -2,6 +2,15 @@ import _ from 'lodash'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 
+enum QuantityUnit {
+  KILOGRAM = 'kg',
+  MILLIGRAM = 'mg',
+  POUND = 'lb',
+  LITER = 'l',
+  MILLILITER = 'ml',
+  PIECE = 'piece',
+}
+
 export type ProductItem = {
   id: string
   quantity: number
@@ -13,6 +22,8 @@ export type Product = {
   name: string
   identifiers: string[]
   items: ProductItem[]
+  minQuantity: number
+  quantityUnit: QuantityUnit
 }
 
 export type ProductSummary = Product & {
@@ -53,8 +64,29 @@ export const useProductsStore = defineStore('products', {
     ],
   }),
   getters: {
-    summary(state: State): ProductSummary[] {
-      return state.products.map((product: Product): ProductSummary => {
+    /**
+     * Returns all products with nested items. Items sorted by expires value.
+     *
+     * @param {State} state
+     * @returns {Product[]}
+     */
+    allProducts(state: State): Product[] {
+      return state.products.map((product: Product): Product => {
+        product.items.sort((a: ProductItem, b: ProductItem) =>
+          !(a.expiresAt && b.expiresAt) || a.expiresAt > b.expiresAt ? -1 : 1
+        )
+
+        return product
+      })
+    },
+
+    /**
+     * Returns all products with items and additional calculated information.
+     *
+     * @returns {ProductSummary[]}
+     */
+    summary(): ProductSummary[] {
+      return this.allProducts.map((product: Product): ProductSummary => {
         const itemsSum: number = _.sumBy(product.items, 'quantity')
         const nextExpiringItem = _.minBy(product.items, 'expiresAt')
         const nextExpiresAt = nextExpiringItem

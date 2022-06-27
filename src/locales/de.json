@@ -7,7 +7,16 @@
   "fields": {
     "search": "Suchen"
   },
+  "units": {
+    "kilogram": "kg",
+    "lb": "Pfund",
+    "liter": "l",
+    "piece": "Stück"
+  },
+  "product": {
+    "add": "Neues Produkt"
+  },
   "available": "vorhanden",
-  "expiresIn": "läuft ab in {0}",
-  "expiredAt": "ist vor {0} abgelaufen"
+  "expiresIn": "läuft ab {0}",
+  "expiredAt": "{0} abgelaufen"
 }
