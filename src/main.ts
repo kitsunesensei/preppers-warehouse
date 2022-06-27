@@ -17,6 +17,7 @@ if (import.meta.env.DEV) {
 
 const i18n = createI18n({
   locale: 'en',
+  fallbackLocale: 'en',
   messages: {
     en: enMessages,
     de: deMessages,
