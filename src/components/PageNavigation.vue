@@ -21,8 +21,7 @@ import { FolderIcon, QrcodeIcon, SettingsIcon } from 'vue-tabler-icons'
 
 <style lang="sass" scoped>
 .navigation-wrapper
-  @apply flex justify-evenly w-full
-  background: $light-grey
+  @apply flex justify-evenly w-full bg-zinc-100
 
   a
     @apply flex flex-grow flex-col items-center justify-center pt-2 pb-1
