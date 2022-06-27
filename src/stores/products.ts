@@ -101,4 +101,28 @@ export const useProductsStore = defineStore('products', {
       })
     },
   },
+  actions: {
+    async addProductStub(name: string): Promise<Product> {
+      const product = {
+        id: uuidv4(),
+        name,
+        identifiers: [],
+        items: [],
+        quantityUnit: QuantityUnit.PIECE,
+        minQuantity: 0,
+      }
+
+      this.products.push(product)
+
+      return product
+    },
+
+    async deleteProduct(product: Product) {
+      const index = this.products.indexOf(product)
+
+      if (index >= 0) {
+        this.products.splice(index, 1)
+      }
+    },
+  },
 })
