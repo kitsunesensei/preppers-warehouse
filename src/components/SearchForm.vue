@@ -31,5 +31,5 @@ const updateValue = (event: UpdateEvent) => {
 
 <style lang="sass" scoped>
 input[type="search"]
-  @apply mt-4 mb-6 px-2 py-1 w-full bg-gray-200 rounded
+  @apply px-2 py-1 w-full bg-gray-200 rounded
 </style>

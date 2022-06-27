@@ -1,12 +1,16 @@
 <script lang="ts" setup>
-import type { ProductSummary } from '@/stores/products'
-import { computed } from 'vue'
-import moment from 'moment'
-import { ArrowNarrowRightIcon } from 'vue-tabler-icons'
+import type { Product, ProductSummary } from '@/stores/products'
+
+import { computed, ref } from 'vue'
+import { ArrowNarrowRightIcon, CirclePlusIcon } from 'vue-tabler-icons'
+
 import { useFormStore } from '@/stores/formCache'
 import { useProductsStore } from '@/stores/products'
+import PageContainer from '@/components/PageContainer.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import PageTitle from '@/components/PageTitle.vue'
 import SearchForm from '@/components/SearchForm.vue'
+import ProductListItem from '@/components/ProductListItem.vue'
 
 const productsStore = useProductsStore()
 
@@ -35,65 +39,103 @@ const products = computed(() =>
       })
     )
 )
+
+const productElements = ref<InstanceType<typeof ProductListItem>[]>([])
+
+// Product add form.
+const shouldShowNewProductForm = ref(false)
+const newProductInput = ref(null)
+
+const showNewProductForm = () => {
+  shouldShowNewProductForm.value = true
+}
+
+const saveNewProduct = () => {
+  shouldShowNewProductForm.value = false
+  productsStore
+    .addProductStub(`${newProductInput.value.innerText}`.trim())
+    .then((product: Product) => {
+      const element = productElements.value.find(
+        (productItem: InstanceType<typeof ProductListItem>) =>
+          productItem.productId === product.id
+      )
+      if (element && element.$el && element.$el.scrollIntoView) {
+        element.$el.scrollIntoView()
+      }
+    })
+}
+
+const discardNewProduct = () => (shouldShowNewProductForm.value = false)
 </script>
 
 <template>
   <div>
-    <page-title>{{ $t('navigation.browse') }}</page-title>
-    <search-form v-model.trim="exploreFilter" />
-    <div
-      v-for="(product, index) in products"
-      :key="index"
-      :class="{ product: true, 'has-expires': product.expiresSoon }"
-      @click="
-        $router.push({
-          name: 'product-view',
-          params: { productId: product.id },
-        })
-      "
-    >
-      <div class="product-top">
-        <div class="label">{{ product.name }}</div>
-        <div class="quantity" :title="`${product.itemsSum} ${$t('available')}`">
-          {{ product.itemsSum > 99 ? '99+' : product.itemsSum }}
-          <arrow-narrow-right-icon />
-        </div>
-      </div>
-      <div
-        v-if="product.nextExpiresAt"
-        :class="{
-          expires: true,
-          'expires-soon': product.expiresSoon,
-          expired: product.expired,
-        }"
+    <page-header>
+      <page-container class="page-container">
+        <page-title>
+          <template #default>{{ $t('navigation.browse') }}</template>
+          <template #menu>
+            <li @click="showNewProductForm()">
+              {{ $t('product.add') }}
+              <circle-plus-icon />
+            </li>
+          </template>
+        </page-title>
+        <search-form class="search-form" v-model.trim="exploreFilter" />
+      </page-container>
+    </page-header>
+
+    <page-container class="page-container">
+      <product-list-item
+        v-if="shouldShowNewProductForm"
+        class="product new-product"
+        :name="$t('product.add')"
+        :items-sum="0"
       >
-        {{
-          $t(product.expired ? 'expiredAt' : 'expiresIn', [
-            moment(product.nextExpiresAt).fromNow(),
-          ])
-        }}
-      </div>
-    </div>
+        <template #label>
+          <div
+            class="label-field"
+            contenteditable="true"
+            @focusout="saveNewProduct"
+            @keypress.enter="saveNewProduct"
+            @keypress.esc="discardNewProduct"
+            ref="newProductInput"
+            v-editable-focus
+          >
+            {{ $t('product.add') }}
+          </div>
+        </template>
+      </product-list-item>
+
+      <product-list-item
+        v-for="(product, index) in products"
+        :key="index"
+        class="product"
+        ref="productElements"
+        :name="product.name"
+        :items-sum="product.itemsSum"
+        :next-expires-at="product.nextExpiresAt"
+        :product-id="product.id"
+        @click="
+          $router.push({
+            name: 'product-view',
+            params: { productId: product.id },
+          })
+        "
+      />
+    </page-container>
   </div>
 </template>
 
 <style lang="sass" scoped>
-.product
-  @apply mb-4 pb-4 border-b
+.page-container
+  @apply pt-4
 
-  &:last-child
-    @apply border-b-0
+.search-form
+  @apply py-4
 
-  .product-top
-    @apply flex
-
-  .label
-    @apply font-bold flex-grow
-
-  .quantity
-    @apply pl-1 flex shrink-0 content-start whitespace-nowrap text-gray-400
-    font-family: 'Courier Prime', monospace
-
-  .expires
-    @apply text-slate-400
+.new-product
+  .label-field
+    @apply -mx-2 -my-1 px-2 py-1 w-full bg-gray-200 rounded
+    outline: none
 </style>
