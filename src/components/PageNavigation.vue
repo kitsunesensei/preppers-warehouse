@@ -8,7 +8,7 @@ import { FolderIcon, QrcodeIcon, SettingsIcon } from 'vue-tabler-icons'
       <folder-icon />
       <span>{{ $t('navigation.browse') }}</span>
     </router-link>
-    <router-link to="/search)">
+    <router-link to="/search">
       <qrcode-icon />
       <span>{{ $t('navigation.search') }}</span>
     </router-link>
