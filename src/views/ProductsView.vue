@@ -26,10 +26,12 @@ const products = computed(() =>
     )
     .map((product: ProductSummary) =>
       Object.assign(product, {
-        expired: moment(product.nextExpiresAt).isBefore(moment()),
-        expiresSoon: moment(product.nextExpiresAt).isBefore(
-          moment().add(15, 'days')
-        ),
+        expired: product.nextExpiresAt
+          ? product.nextExpiresAt <= new Date()
+          : false,
+        expiresSoon: product.nextExpiresAt
+          ? product.nextExpiresAt <= new Date(new Date().getDate() + 15)
+          : false,
       })
     )
 )
