@@ -37,31 +37,7 @@ type State = {
 
 export const useProductsStore = defineStore('products', {
   state: (): State => ({
-    products: [
-      {
-        id: uuidv4(),
-        name: 'Test 1',
-        identifiers: [],
-        items: [],
-      },
-      {
-        id: uuidv4(),
-        name: 'Test 2Test 2Test 2Test 2Test 2Test 2Test 2Test 2Test 2Test 2Test 2',
-        identifiers: [],
-        items: [
-          {
-            id: uuidv4(),
-            quantity: 3,
-            expiresAt: new Date(),
-          },
-          {
-            id: uuidv4(),
-            quantity: 100,
-            expiresAt: new Date(new Date().setDate(new Date().getDate() - 3)),
-          },
-        ],
-      },
-    ],
+    products: [],
   }),
   getters: {
     /**
