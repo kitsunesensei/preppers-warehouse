@@ -35,7 +35,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
-    "@rushstack/eslint-patch": "^1.1.0",
+    "@rushstack/eslint-patch": "^1.1.4",
     "@types/jsdom": "^16.2.14",
     "@types/lodash": "^4.14.182",
     "@types/moment": "^2.13.0",
