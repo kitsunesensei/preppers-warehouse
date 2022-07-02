@@ -2,7 +2,7 @@
 import type { Product, ProductSummary } from '@/stores/products'
 
 import { computed, ref } from 'vue'
-import { ArrowNarrowRightIcon, CirclePlusIcon } from 'vue-tabler-icons'
+import { CirclePlusIcon } from 'vue-tabler-icons'
 
 import { useFormStore } from '@/stores/formCache'
 import { useProductsStore } from '@/stores/products'
@@ -11,6 +11,7 @@ import PageHeader from '@/components/PageHeader.vue'
 import PageTitle from '@/components/PageTitle.vue'
 import SearchForm from '@/components/SearchForm.vue'
 import ProductListItem from '@/components/ProductListItem.vue'
+import AddProductListItem from '@/components/AddProductListItem.vue'
 
 const productsStore = useProductsStore()
 
@@ -22,50 +23,32 @@ const exploreFilter = computed({
 })
 
 const products = computed(() =>
-  productsStore.summary
-    .filter((product: ProductSummary) =>
-      `${product.id} ${product.identifiers.concat(' ')} ${product.name}`
-        .toLowerCase()
-        .includes(`${exploreFilter.value}`.toLowerCase())
-    )
-    .map((product: ProductSummary) =>
-      Object.assign(product, {
-        expired: product.nextExpiresAt
-          ? product.nextExpiresAt <= new Date()
-          : false,
-        expiresSoon: product.nextExpiresAt
-          ? product.nextExpiresAt <= new Date(new Date().getDate() + 15)
-          : false,
-      })
-    )
+  productsStore.summary.filter((product: ProductSummary) =>
+    `${product.id} ${product.identifiers.concat(' ')} ${product.name}`
+      .toLowerCase()
+      .includes(`${exploreFilter.value}`.toLowerCase())
+  )
 )
 
-const productElements = ref<InstanceType<typeof ProductListItem>[]>([])
+const productListElements = ref<InstanceType<typeof ProductListItem>[]>([])
 
-// Product add form.
-const shouldShowNewProductForm = ref(false)
-const newProductInput = ref(null)
+const shouldShowAddProduct = ref(false)
 
-const showNewProductForm = () => {
-  shouldShowNewProductForm.value = true
+const showAddProduct = () => (shouldShowAddProduct.value = true)
+const closeAddProduct = () => (shouldShowAddProduct.value = false)
+
+const scrollToProduct = (product: Product) => {
+  const element = productListElements.value.find(
+    (productItem: InstanceType<typeof ProductListItem>) =>
+      productItem.$el.id === product.id
+  )
+
+  if (element && element.$el instanceof HTMLElement) {
+    element.$el.scrollIntoView()
+  }
+
+  closeAddProduct()
 }
-
-const saveNewProduct = () => {
-  shouldShowNewProductForm.value = false
-  productsStore
-    .addProductStub(`${newProductInput.value.innerText}`.trim())
-    .then((product: Product) => {
-      const element = productElements.value.find(
-        (productItem: InstanceType<typeof ProductListItem>) =>
-          productItem.productId === product.id
-      )
-      if (element && element.$el && element.$el.scrollIntoView) {
-        element.$el.scrollIntoView()
-      }
-    })
-}
-
-const discardNewProduct = () => (shouldShowNewProductForm.value = false)
 </script>
 
 <template>
@@ -75,7 +58,7 @@ const discardNewProduct = () => (shouldShowNewProductForm.value = false)
         <page-title>
           <template #default>{{ $t('navigation.browse') }}</template>
           <template #menu>
-            <li @click="showNewProductForm()">
+            <li @click="showAddProduct()">
               {{ $t('product.add') }}
               <circle-plus-icon />
             </li>
@@ -86,36 +69,22 @@ const discardNewProduct = () => (shouldShowNewProductForm.value = false)
     </page-header>
 
     <page-container class="page-container">
-      <product-list-item
-        v-if="shouldShowNewProductForm"
-        class="product new-product"
-        :name="$t('product.add')"
-        :items-sum="0"
-      >
-        <template #label>
-          <div
-            class="label-field"
-            contenteditable="true"
-            @focusout="saveNewProduct"
-            @keypress.enter="saveNewProduct"
-            @keypress.esc="discardNewProduct"
-            ref="newProductInput"
-            v-editable-focus
-          >
-            {{ $t('product.add') }}
-          </div>
-        </template>
-      </product-list-item>
+      <add-product-list-item
+        v-if="shouldShowAddProduct"
+        class="product"
+        @saved="scrollToProduct"
+        @discarded="closeAddProduct"
+      />
 
       <product-list-item
-        v-for="(product, index) in products"
-        :key="index"
+        v-for="product in products"
+        :key="product.id"
+        :id="product.id"
         class="product"
-        ref="productElements"
+        ref="productListElements"
         :name="product.name"
         :items-sum="product.itemsSum"
         :next-expires-at="product.nextExpiresAt"
-        :product-id="product.id"
         @click="
           $router.push({
             name: 'product-view',
@@ -133,9 +102,4 @@ const discardNewProduct = () => (shouldShowNewProductForm.value = false)
 
 .search-form
   @apply py-4
-
-.new-product
-  .label-field
-    @apply -mx-2 -my-1 px-2 py-1 w-full bg-gray-200 rounded
-    outline: none
 </style>
