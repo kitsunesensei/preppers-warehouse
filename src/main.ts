@@ -31,6 +31,9 @@ app.use(createPinia())
 app.use(router)
 app.use(i18n)
 
+// TODO: make dynamic
+dayjs.locale('en')
+
 /**
  * @source https://stackoverflow.com/a/63910611/2699732
  * @copyright Daniel<https://stackoverflow.com/users/197546/daniel>
@@ -64,8 +67,5 @@ app.directive('editable-focus', {
     }
   },
 })
-
-// TODO: make dynamic
-dayjs.locale('en')
 
 app.mount('#app')
