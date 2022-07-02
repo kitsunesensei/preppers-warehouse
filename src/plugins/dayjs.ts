@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import isLeapYear from 'dayjs/plugin/isLeapYear'
 import LocalizedFormat from 'dayjs/plugin/LocalizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
