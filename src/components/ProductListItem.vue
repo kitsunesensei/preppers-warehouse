@@ -7,13 +7,10 @@ import dayjs from '@/plugins/dayjs'
 const props = defineProps<{
   name: string
   itemsSum: number
-  productId?: string
   nextExpiresAt?: Date
 }>()
 
-defineExpose({
-  productId: props.productId,
-})
+const isExpired = props.nextExpiresAt && props.nextExpiresAt <= new Date()
 </script>
 
 <template>
@@ -32,7 +29,7 @@ defineExpose({
     <div v-if="nextExpiresAt" class="expires">
       <slot name="expire">
         {{
-          $t(product.expired ? 'expiredAt' : 'expiresIn', [
+          $t(isExpired ? 'expiredAt' : 'expiresIn', [
             dayjs(nextExpiresAt).fromNow(),
           ])
         }}
