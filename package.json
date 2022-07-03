@@ -37,6 +37,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@faker-js/faker": "^7.3.0",
+    "@pinia/testing": "^0.0.12",
     "@rushstack/eslint-patch": "^1.1.0",
     "@types/jsdom": "^16.2.14",
     "@types/lodash": "^4.14.182",
