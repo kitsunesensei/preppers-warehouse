@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 
-enum QuantityUnit {
+export enum QuantityUnit {
   KILOGRAM = 'kg',
   MILLIGRAM = 'mg',
   POUND = 'lb',
@@ -78,6 +78,12 @@ export const useProductsStore = defineStore('products', {
     },
   },
   actions: {
+    /**
+     * Creates new product record with defaults.
+     *
+     * @param {string} name
+     * @returns {Promise<Product>}
+     */
     async addProductStub(name: string): Promise<Product> {
       const product = {
         id: uuidv4(),
