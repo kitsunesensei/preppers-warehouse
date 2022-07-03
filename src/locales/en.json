@@ -4,5 +4,19 @@
     "search": "Search",
     "settings": "Settings"
   },
-  "available": "available"
+  "fields": {
+    "search": "Search"
+  },
+  "units": {
+    "kilogram": "kg",
+    "lb": "lb",
+    "liter": "l",
+    "piece": "Pieces"
+  },
+  "product": {
+    "add": "Add Product"
+  },
+  "available": "available",
+  "expiresIn": "expires {0}",
+  "expiredAt": "expired {0}"
 }

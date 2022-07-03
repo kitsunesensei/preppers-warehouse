@@ -4,5 +4,19 @@
     "search": "Suchen",
     "settings": "Einstellungen"
   },
-  "available": "vorhanden"
+  "fields": {
+    "search": "Suchen"
+  },
+  "units": {
+    "kilogram": "kg",
+    "lb": "Pfund",
+    "liter": "l",
+    "piece": "Stück"
+  },
+  "product": {
+    "add": "Neues Produkt"
+  },
+  "available": "vorhanden",
+  "expiresIn": "läuft ab {0}",
+  "expiredAt": "{0} abgelaufen"
 }

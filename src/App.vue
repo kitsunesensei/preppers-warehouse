@@ -4,9 +4,8 @@ import PageNavigation from '@/components/PageNavigation.vue'
 
 <template>
   <div class="layout">
-    <div class="page">
-      <router-view />
-    </div>
+    <router-view />
+
     <footer>
       <page-navigation class="navigation" />
     </footer>
@@ -15,11 +14,8 @@ import PageNavigation from '@/components/PageNavigation.vue'
 
 <style lang="sass" scoped>
 .layout
-  @apply flex flex-col min-h-screen
+  @apply flex flex-col justify-between min-h-screen
 
-  .page
-    @apply flex-grow
-
-  .navigation
+  footer
     @apply w-screen bottom-0 sticky
 </style>
