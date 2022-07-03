@@ -42,11 +42,13 @@ describe('Products Store', () => {
       stubProducts.push(stubProduct)
     }
 
+    // @ts-ignore
     stubProducts.forEach((stubProduct) => store.products.push(stubProduct))
 
     expect(store.products).toBeInstanceOf(Array)
     expect(store.products).lengthOf(3)
 
+    // @ts-ignore
     store.deleteProduct(stubProducts[1])
 
     expect(store.products).lengthOf(2)
@@ -71,13 +73,17 @@ describe('Products Store', () => {
       stubProducts.push(stubProduct)
     }
 
+    // @ts-ignore
     store.products.push(stubProducts[0])
+    // @ts-ignore
     store.products.push(stubProducts[1])
+    // @ts-ignore
     store.products.push(stubProducts[2])
 
     expect(store.products).toBeInstanceOf(Array)
     expect(store.products).lengthOf(3)
 
+    // @ts-ignore
     store.deleteProduct(stubProducts[4])
 
     expect(store.products).lengthOf(3)

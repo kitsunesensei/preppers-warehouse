@@ -13,6 +13,11 @@ module.exports = {
       files: ['cypress/e2e/**.{cy,spec}.{js,ts,jsx,tsx}'],
       extends: ['plugin:cypress/recommended'],
     },
+    {
+      files: ['src/**/*.spec.{js,ts,jsx,tsx}'],
+      rules: {
+        '@typescript-eslint/ban-ts-comment': 'off',
+      },
+    },
   ],
-  ignorePatterns: ['*.spec.js'],
 }
